@@ -1,0 +1,159 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #F5F1E8;
+  border-bottom: 2px solid rgba(139, 111, 71, 0.15);
+  box-shadow: 0 2px 8px rgba(47, 39, 32, 0.08);
+  z-index: 1000;
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.navbar-brand:hover {
+  opacity: 0.8;
+}
+
+.navbar-center {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-link {
+  color: #6B5D4F;
+  font-weight: 400;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 8px 0;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.navbar-link:hover {
+  color: #8B6F47;
+}
+
+.navbar-link.active {
+  color: #8B6F47;
+  font-weight: 500;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-nav {
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-nav-secondary {
+  color: #6B5D4F;
+  background: #FFFEF9;
+  border: 1px solid #D4C9B8;
+}
+
+.btn-nav-secondary:hover {
+  color: #8B6F47;
+  border-color: #A6895F;
+  background: #FAF8F3;
+}
+
+.btn-nav-primary {
+  color: #FFFEF9;
+  background: #8B6F47;
+  border: none;
+}
+
+.btn-nav-primary:hover {
+  background: #6B5435;
+}
+
+.btn-logout {
+  padding: 8px 20px;
+  background: #8B6F47;
+  color: #FFFEF9;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background: #6B5435;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 20px;
+  }
+
+  .navbar-center {
+    gap: 20px;
+  }
+
+  .navbar-link {
+    font-size: 13px;
+  }
+
+  .logo-main {
+    font-size: 16px;
+  }
+
+  .logo-slogan {
+    font-size: 8px;
+  }
+
+  .book-icon {
+    width: 40px;
+    height: 48px;
+  }
+
+  .btn-nav {
+    padding: 6px 16px;
+    font-size: 13px;
+  }
+
+  .btn-logout {
+    padding: 6px 16px;
+    font-size: 13px;
+  }
+}

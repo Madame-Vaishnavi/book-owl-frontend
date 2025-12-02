@@ -1,0 +1,21 @@
+.bookstore-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+.logo-image {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+.company-name {
+  font-size: 25px;
+  font-weight: 500;
+  color: #6B5D4F;
+  font-family: 'Cormorant', serif;
+  letter-spacing: 0.5px;
+}
+
