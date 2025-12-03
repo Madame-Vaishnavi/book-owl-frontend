@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { bookService } from '../services/bookService';
+import { openLibraryService } from '../services/openLibraryService';
 import { useAuth } from '../context/AuthContext';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import './BookForm.css';
@@ -24,6 +25,9 @@ const BookForm = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingBook, setLoadingBook] = useState(isEditMode);
+  const [isbnSearch, setIsbnSearch] = useState('');
+  const [searchingISBN, setSearchingISBN] = useState(false);
+  const [isbnError, setIsbnError] = useState('');
 
   const categories = ['Fiction', 'Non Fiction', 'Science', 'History', 'Technology', 'Arts', 'Others'];
 
@@ -64,6 +68,45 @@ const BookForm = () => {
         : value
     }));
     setError('');
+  };
+
+  const handleISBNSearch = async () => {
+    if (!isbnSearch.trim()) {
+      setIsbnError('Please enter an ISBN number');
+      return;
+    }
+
+    setSearchingISBN(true);
+    setIsbnError('');
+    setError('');
+
+    try {
+      const bookInfo = await openLibraryService.getBookByISBN(isbnSearch);
+      
+      // Auto-fill form with fetched book data
+      setFormData(prev => ({
+        ...prev,
+        title: bookInfo.title || prev.title,
+        author: bookInfo.author || prev.author,
+        isbn: bookInfo.isbn || prev.isbn,
+        category: bookInfo.category || prev.category,
+        publishedYear: bookInfo.publishedYear || prev.publishedYear,
+        // Keep totalCopies and availableCopies as they are (admin will enter these)
+      }));
+
+      setIsbnSearch(''); // Clear search field after successful search
+    } catch (err) {
+      setIsbnError(err.message || 'Failed to fetch book information. Please try again.');
+    } finally {
+      setSearchingISBN(false);
+    }
+  };
+
+  const handleISBNSearchKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleISBNSearch();
+    }
   };
 
   const validateForm = () => {
@@ -216,6 +259,65 @@ const BookForm = () => {
 
             <div className="form-section">
               <h3 className="section-title">Book Details</h3>
+              
+              {!isEditMode && (
+                <div className="isbn-search-section">
+                  <div className="isbn-search-wrapper">
+                    <div className="form-group" style={{ flex: 1 }}>
+                      <label htmlFor="isbn-search">
+                        Search by ISBN
+                      </label>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <input
+                          type="text"
+                          id="isbn-search"
+                          value={isbnSearch}
+                          onChange={(e) => {
+                            setIsbnSearch(e.target.value);
+                            setIsbnError('');
+                          }}
+                          onKeyPress={handleISBNSearchKeyPress}
+                          placeholder="Enter ISBN (10-13 digits)"
+                          className="form-input"
+                          disabled={searchingISBN}
+                        />
+                        <button
+                          type="button"
+                          onClick={handleISBNSearch}
+                          disabled={searchingISBN || !isbnSearch.trim()}
+                          className="btn-search-isbn"
+                        >
+                          {searchingISBN ? (
+                            <>
+                              <span className="spinner" style={{ width: '14px', height: '14px', borderWidth: '2px' }}></span>
+                              Searching...
+                            </>
+                          ) : (
+                            <>
+                              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              </svg>
+                              Search
+                            </>
+                          )}
+                        </button>
+                      </div>
+                      {isbnError && (
+                        <small className="form-error" style={{ color: 'var(--error)', marginTop: '4px', display: 'block' }}>
+                          {isbnError}
+                        </small>
+                      )}
+                      <small className="form-hint" style={{ marginTop: '4px' }}>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Search by ISBN to auto-fill book details
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="isbn">
