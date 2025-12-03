@@ -218,54 +218,14 @@ const BookForm = () => {
               </div>
             )}
 
-            <div className="form-section">
-              <h3 className="section-title">Basic Information</h3>
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="title">
-                    Title <span className="required">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    required
-                    maxLength={200}
-                    placeholder="Enter book title"
-                    className="form-input"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="author">
-                    Author <span className="required">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="author"
-                    name="author"
-                    value={formData.author}
-                    onChange={handleChange}
-                    required
-                    maxLength={100}
-                    placeholder="Enter author name"
-                    className="form-input"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="form-section">
-              <h3 className="section-title">Book Details</h3>
-              
-              {!isEditMode && (
+            {!isEditMode && (
+              <>
                 <div className="isbn-search-section">
+                  <h3 className="section-title">Fill by ISBN</h3>
                   <div className="isbn-search-wrapper">
-                    <div className="form-group" style={{ flex: 1 }}>
+                    <div className="form-group">
                       <label htmlFor="isbn-search">
-                        Search by ISBN
+                        Enter ISBN Number
                       </label>
                       <div style={{ display: 'flex', gap: '8px' }}>
                         <input
@@ -316,8 +276,56 @@ const BookForm = () => {
                     </div>
                   </div>
                 </div>
-              )}
 
+                <div className="form-divider">
+                  <div className="divider-line"></div>
+                  <span className="divider-text">OR</span>
+                  <div className="divider-line"></div>
+                </div>
+              </>
+            )}
+
+            <div className="form-section">
+              <h3 className="section-title">Basic Information</h3>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="title">
+                    Title <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    required
+                    maxLength={200}
+                    placeholder="Enter book title"
+                    className="form-input"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="author">
+                    Author <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="author"
+                    name="author"
+                    value={formData.author}
+                    onChange={handleChange}
+                    required
+                    maxLength={100}
+                    placeholder="Enter author name"
+                    className="form-input"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-section">
+              <h3 className="section-title">Book Details</h3>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="isbn">
