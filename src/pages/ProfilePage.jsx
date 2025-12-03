@@ -251,32 +251,23 @@ const ProfilePage = () => {
                     placeholder="Enter address"
                     className="register-form-input"
                   />
-                  <button
-                    type="button"
-                    onClick={handleDetectLocation}
-                    disabled={detectingLocation}
-                    className="btn-detect-location"
-                    style={{
-                      marginTop: '8px',
-                      padding: '6px 12px',
-                      fontSize: '13px'
-                    }}
-                  >
-                    {detectingLocation ? (
-                      <>
-                        <span className="spinner" style={{ width: '12px', height: '12px', borderWidth: '2px' }}></span>
-                        Detecting...
-                      </>
-                    ) : (
-                      <>
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Locate Me
-                      </>
-                    )}
-                  </button>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
+                    <button
+                      type="button"
+                      onClick={handleDetectLocation}
+                      disabled={detectingLocation}
+                      className="btn-locate-me"
+                    >
+                      {detectingLocation ? (
+                        <>
+                          <span className="spinner" style={{ width: '12px', height: '12px', borderWidth: '2px', marginRight: '6px' }}></span>
+                          Detecting...
+                        </>
+                      ) : (
+                        'Locate Me'
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 <div className="register-form-group">
