@@ -221,59 +221,50 @@ const BookForm = () => {
             {!isEditMode && (
               <>
                 <div className="isbn-search-section">
-                  <h3 className="section-title">Fill by ISBN</h3>
-                  <div className="isbn-search-wrapper">
-                    <div className="form-group">
-                      <label htmlFor="isbn-search">
-                        Enter ISBN Number
-                      </label>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <input
-                          type="text"
-                          id="isbn-search"
-                          value={isbnSearch}
-                          onChange={(e) => {
-                            setIsbnSearch(e.target.value);
-                            setIsbnError('');
-                          }}
-                          onKeyPress={handleISBNSearchKeyPress}
-                          placeholder="Enter ISBN (10-13 digits)"
-                          className="form-input"
-                          disabled={searchingISBN}
-                        />
-                        <button
-                          type="button"
-                          onClick={handleISBNSearch}
-                          disabled={searchingISBN || !isbnSearch.trim()}
-                          className="btn-search-isbn"
-                        >
-                          {searchingISBN ? (
-                            <>
-                              <span className="spinner" style={{ width: '14px', height: '14px', borderWidth: '2px' }}></span>
-                              Searching...
-                            </>
-                          ) : (
-                            <>
-                              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                              </svg>
-                              Search
-                            </>
-                          )}
-                        </button>
-                      </div>
-                      {isbnError && (
-                        <small className="form-error" style={{ color: 'var(--error)', marginTop: '4px', display: 'block' }}>
-                          {isbnError}
-                        </small>
-                      )}
-                      <small className="form-hint" style={{ marginTop: '4px' }}>
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Search by ISBN to auto-fill book details
-                      </small>
+                  <div className="form-group">
+                    <label htmlFor="isbn-search">
+                      Fill by ISBN
+                    </label>
+                    <div className="isbn-input-group">
+                      <input
+                        type="text"
+                        id="isbn-search"
+                        value={isbnSearch}
+                        onChange={(e) => {
+                          setIsbnSearch(e.target.value);
+                          setIsbnError('');
+                        }}
+                        onKeyPress={handleISBNSearchKeyPress}
+                        placeholder="Enter ISBN (10-13 digits)"
+                        className="form-input"
+                        disabled={searchingISBN}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleISBNSearch}
+                        disabled={searchingISBN || !isbnSearch.trim()}
+                        className="btn-search-isbn"
+                      >
+                        {searchingISBN ? (
+                          <>
+                            <span className="spinner" style={{ width: '14px', height: '14px', borderWidth: '2px' }}></span>
+                            Searching...
+                          </>
+                        ) : (
+                          <>
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            Search
+                          </>
+                        )}
+                      </button>
                     </div>
+                    {isbnError && (
+                      <small className="form-error">
+                        {isbnError}
+                      </small>
+                    )}
                   </div>
                 </div>
 

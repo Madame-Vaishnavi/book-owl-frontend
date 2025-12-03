@@ -230,18 +230,13 @@
 }
 
 .isbn-search-section {
-  margin-bottom: var(--spacing-xl);
-  padding: var(--spacing-lg);
-  background: var(--bg-secondary);
-  border-radius: var(--radius);
-  border: 1px solid var(--border-color);
+  margin-bottom: var(--spacing-lg);
 }
 
-.isbn-search-wrapper {
+.isbn-input-group {
   display: flex;
-  flex-direction: column;
   gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
+  align-items: flex-start;
 }
 
 .form-divider {
@@ -281,6 +276,8 @@
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
+  height: fit-content;
+  align-self: stretch;
 }
 
 .btn-search-isbn:hover:not(:disabled) {
@@ -294,11 +291,10 @@
 }
 
 .form-error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
+  display: block;
   font-size: var(--font-size-xs);
   color: var(--error);
+  margin-top: var(--spacing-xs);
 }
 
 /* Responsive */
