@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { authService } from '../services/authService';
+import { locationService } from '../services/locationService';
 import './Dashboard.css';
 import './ProfilePage.css';
 
@@ -12,11 +13,13 @@ const ProfilePage = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'member'
+    role: 'member',
+    address: ''
   });
   const [registerError, setRegisterError] = useState('');
   const [registerSuccess, setRegisterSuccess] = useState('');
   const [registerLoading, setRegisterLoading] = useState(false);
+  const [detectingLocation, setDetectingLocation] = useState(false);
 
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +29,22 @@ const ProfilePage = () => {
     }));
     setRegisterError('');
     setRegisterSuccess('');
+  };
+
+  const handleDetectLocation = async () => {
+    setDetectingLocation(true);
+    setRegisterError('');
+    try {
+      const address = await locationService.getCurrentAddress();
+      setRegisterFormData(prev => ({
+        ...prev,
+        address
+      }));
+    } catch (err) {
+      setRegisterError(err.message || 'Failed to detect location. Please enter address manually.');
+    } finally {
+      setDetectingLocation(false);
+    }
   };
 
   const handleRegisterSubmit = async (e) => {
@@ -56,7 +75,8 @@ const ProfilePage = () => {
           email: '',
           password: '',
           confirmPassword: '',
-          role: 'member'
+          role: 'member',
+          address: ''
         });
         setTimeout(() => {
           setShowRegisterForm(false);
@@ -125,6 +145,18 @@ const ProfilePage = () => {
                 )}
               </span>
             </div>
+            {user?.address && (
+              <div className="profile-item">
+                <div className="profile-label-wrapper">
+                  <svg className="profile-icon-small" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="profile-label">Address</span>
+                </div>
+                <span className="profile-value">{user.address}</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -209,6 +241,45 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="register-form-group">
+                  <label htmlFor="register-address">Address</label>
+                  <input
+                    type="text"
+                    id="register-address"
+                    name="address"
+                    value={registerFormData.address}
+                    onChange={handleRegisterChange}
+                    placeholder="Enter address"
+                    className="register-form-input"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleDetectLocation}
+                    disabled={detectingLocation}
+                    className="btn-detect-location"
+                    style={{
+                      marginTop: '8px',
+                      padding: '6px 12px',
+                      fontSize: '13px'
+                    }}
+                  >
+                    {detectingLocation ? (
+                      <>
+                        <span className="spinner" style={{ width: '12px', height: '12px', borderWidth: '2px' }}></span>
+                        Detecting...
+                      </>
+                    ) : (
+                      <>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Locate Me
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className="register-form-group">
                   <label htmlFor="register-password">Password</label>
                   <input
                     type="password"
@@ -256,7 +327,8 @@ const ProfilePage = () => {
                         email: '',
                         password: '',
                         confirmPassword: '',
-                        role: 'member'
+                        role: 'member',
+                        address: ''
                       });
                     }}
                     className="btn-register-cancel"

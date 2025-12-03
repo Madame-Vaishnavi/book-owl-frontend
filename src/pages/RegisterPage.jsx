@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import BookstoreLogo from '../components/layout/BookstoreLogo';
+import { locationService } from '../services/locationService';
 import './Auth.css';
 
 const RegisterPage = () => {
@@ -9,10 +10,12 @@ const RegisterPage = () => {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    address: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [detectingLocation, setDetectingLocation] = useState(false);
   
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -23,6 +26,22 @@ const RegisterPage = () => {
       [e.target.name]: e.target.value
     });
     setError('');
+  };
+
+  const handleDetectLocation = async () => {
+    setDetectingLocation(true);
+    setError('');
+    try {
+      const address = await locationService.getCurrentAddress();
+      setFormData(prev => ({
+        ...prev,
+        address
+      }));
+    } catch (err) {
+      setError(err.message || 'Failed to detect location. Please enter your address manually.');
+    } finally {
+      setDetectingLocation(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -173,6 +192,50 @@ const RegisterPage = () => {
                   />
                 </div>
               </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="address">Address</label>
+              <div className="input-wrapper">
+                <div className="input-icon-container">
+                  <svg className="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div className="input-field-container">
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    placeholder="Enter your address"
+                    className="form-input"
+                  />
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleDetectLocation}
+                disabled={detectingLocation}
+                className="btn-detect-location"
+              >
+                    {detectingLocation ? (
+                      <>
+                        <span className="spinner" style={{ width: '14px', height: '14px', borderWidth: '2px' }}></span>
+                        Detecting...
+                      </>
+                    ) : (
+                      <>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Locate Me
+                      </>
+                    )}
+              </button>
             </div>
 
             <button 

@@ -192,6 +192,33 @@
   cursor: not-allowed;
 }
 
+.btn-detect-location {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  background: var(--primary);
+  color: var(--text-inverse);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: all var(--transition-base);
+  font-weight: var(--font-weight-medium);
+}
+
+.btn-detect-location:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-detect-location:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .spinner {
   width: 16px;
   height: 16px;
